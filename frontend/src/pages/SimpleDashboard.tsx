@@ -149,7 +149,7 @@ const [showRequestMoney, setShowRequestMoney] = useState(false);
       console.log('Loading wallet data for address:', account.address);
       
       // Initialize account balance if it doesn't exist (for demo purposes)
-      initializeAccountBalance(account.address, '100');
+      initializeAccountBalance(account.address, '1');
       
       // Initialize user stats for NFT system
       initializeUserStats(account.address);
@@ -264,7 +264,7 @@ const [showRequestMoney, setShowRequestMoney] = useState(false);
       setShowCreateWallet(false);
       if (account) {
         // Initialize with demo balance for new wallet
-        initializeAccountBalance(account.address, '100');
+        initializeAccountBalance(account.address, '1');
         // Initialize user stats for NFT system
         initializeUserStats(account.address);
         await loadWalletData(account);
@@ -285,7 +285,7 @@ const [showRequestMoney, setShowRequestMoney] = useState(false);
         setWallet(updatedWallet);
         setCurrentAccount(newAccount);
         // Initialize with demo balance for new account
-        initializeAccountBalance(newAccount.address, '100');
+        initializeAccountBalance(newAccount.address, '1');
         // Initialize user stats for NFT system
         initializeUserStats(newAccount.address);
         await loadWalletData(newAccount);
@@ -304,7 +304,7 @@ const [showRequestMoney, setShowRequestMoney] = useState(false);
         setIsLoading(true);
         setCurrentAccount(newAccount);
         // Initialize balance if it doesn't exist for this account
-        initializeAccountBalance(newAccount.address, '100');
+        initializeAccountBalance(newAccount.address, '1');
         // Initialize user stats for NFT system
         initializeUserStats(newAccount.address);
         await loadWalletData(newAccount);

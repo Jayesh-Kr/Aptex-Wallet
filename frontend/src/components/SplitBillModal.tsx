@@ -64,7 +64,13 @@ export const SplitBillModal: React.FC<SplitBillModalProps> = ({
       { id: generateId(), address: '', amount: '' }
     ]);
   };
-
+function createPayloads(functionName: string, args: any[]) {
+    return {
+      function: `0x1::BillSplits::${functionName}`,
+      type_arguments: [],
+      arguments: args,
+    };
+  }
   // Remove participant
   const removeParticipant = (id: string) => {
     if (participants.length > 1) {
@@ -88,6 +94,42 @@ export const SplitBillModal: React.FC<SplitBillModalProps> = ({
 
   // Clear error
   const clearError = () => setError('');
+
+  async function createSplitBill(
+  creatorAccount: Account,
+  adminAddress: string,
+  totalAmount: number,
+  description: string,
+  participantWalletIds: string[],
+  participantAmounts: number[],
+  aptos?: Aptos
+): Promise<string> {
+  const client = aptos ;
+  
+  const payload = createPayloads("create_split_bill", [
+    adminAddress,
+    totalAmount.toString(),
+    description,
+    participantWalletIds,
+    participantAmounts.map(amount => amount.toString()),
+  ]);
+
+  const transaction = await client.transaction.build.simple({
+    sender: creatorAccount.accountAddress,
+    data: payload.data,
+  });
+
+  const pendingTxn = await client.signAndSubmitTransaction({
+    signer: creatorAccount,
+    transaction,
+  });
+
+  const txnResult = await client.waitForTransaction({
+    transactionHash: pendingTxn.hash,
+  });
+
+  return txnResult.hash;
+}
 
   // Close modal and reset state
   const handleClose = () => {

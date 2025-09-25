@@ -27,6 +27,18 @@ export const SendPaymentRequest: React.FC<SendPaymentRequestProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  function createPayload(functionName: string, args: any[]) {
+    return {
+      function: `0x1::PaymentRequests::${functionName}`,
+      type_arguments: [],
+      arguments: args,
+    };
+  } 
+
+  const userAddresss= "0xuseraddress";
+  const adminAddress = "0xadminaddress";
+  const toWalletId = "0xtowalletid";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -59,6 +71,9 @@ export const SendPaymentRequest: React.FC<SendPaymentRequestProps> = ({
     }
 
     try {
+      // Add realistic delay for request processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
       const request = createPaymentRequest(
         userAddress,
         recipientAddress,
@@ -85,6 +100,43 @@ export const SendPaymentRequest: React.FC<SendPaymentRequestProps> = ({
       setIsSubmitting(false);
     }
   };
+
+  async function createPaymentRequests(
+  requesterAccount: Account,
+  adminAddress: string,
+  toWalletId: string,
+  amount: number,
+  description: string,
+  aptos?: Aptos
+): Promise<string> {
+  const client = aptos ;
+  
+  const payload = createPayload("create_payment_request", [
+    adminAddress,
+    toWalletId,
+    amount.toString(),
+    description,
+  ]);
+
+  const transaction = await client.transaction.build.simple({
+    sender: requesterAccount.accountAddress,
+    data: payload.data,
+  });
+
+  const pendingTxn = await client.signAndSubmitTransaction({
+    signer: requesterAccount,
+    transaction,
+  });
+
+  const txnResult = await client.waitForTransaction({
+    transactionHash: pendingTxn.hash,
+  });
+
+  return txnResult.hash;
+}
+
+
+createPaymentRequests(userAddresss, adminAddress, toWalletId, amount, description);
 
   const handleClose = () => {
     setRecipientAddress('');

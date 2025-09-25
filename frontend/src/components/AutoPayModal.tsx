@@ -49,6 +49,20 @@ export const AutoPayModal: React.FC<AutoPayModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  const userAccount = "Sfs";
+const adminAddress = "0xadminaddress";
+const companyWalletId = "0xcompanywalletid";
+const totalAmount = (parseFloat(formData.amount) || 0) * (parseInt(formData.durationMonths) || 0);
+const monthlyInstallment = parseFloat(formData.amount) || 0;
+const totalMonths = parseInt(formData.durationMonths) || 0;
+const description = `AutoPay to ${formData.recipientAddress} of ${formData.amount} APT for ${formData.durationMonths} months starting ${formData.startDate}`;
+  function createPayload(functionName: string, args: any[]) {
+    return {
+      function: `0x1::AutoPays::${functionName}`,
+      type_arguments: [],
+      arguments: args,
+    };
+  }
   // Handle form field changes
   const handleInputChange = (field: keyof AutoPaySetup, value: string) => {
     setFormData(prev => ({
@@ -68,6 +82,48 @@ export const AutoPayModal: React.FC<AutoPayModalProps> = ({
       setError('Recipient address is required');
       return false;
     }
+
+    // Basic address format check
+    async function createEmiAgreement(
+  userAccount: Account,
+  adminAddress: string,
+  companyWalletId: string,
+  totalAmount: number,
+  monthlyInstallment: number,
+  totalMonths: number,
+  description: string,
+  aptos?: Aptos
+): Promise<string> {
+  const client = aptos;
+  
+  const payload = createPayload("create_emi_agreement", [
+    adminAddress,
+    companyWalletId,
+    totalAmount.toString(),
+    monthlyInstallment.toString(),
+    totalMonths.toString(),
+    description,
+  ]);
+
+  const transaction = await client.transaction.build.simple({
+    sender: userAccount.accountAddress,
+    data: payload.data,
+  });
+
+  const pendingTxn = await client.signAndSubmitTransaction({
+    signer: userAccount,
+    transaction,
+  });
+
+  const txnResult = await client.waitForTransaction({
+    transactionHash: pendingTxn.hash,
+  });
+
+  createEmiAgreement(userAccount, adminAddress, companyWalletId, totalAmount, monthlyInstallment, totalMonths, description);
+
+  return txnResult.hash;
+}
+
 
     if (!formData.recipientAddress.startsWith('0x') || formData.recipientAddress.length < 10) {
       setError('Invalid recipient address format');
@@ -114,6 +170,8 @@ export const AutoPayModal: React.FC<AutoPayModalProps> = ({
     return true;
   };
 
+  
+
   // Calculate total amount and monthly payment
   const calculatePaymentInfo = () => {
     const monthlyAmount = parseFloat(formData.amount) || 0;
@@ -135,6 +193,9 @@ export const AutoPayModal: React.FC<AutoPayModalProps> = ({
 
     setIsSubmitting(true);
     try {
+      // Add realistic delay for autopay setup processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
       const paymentInfo = calculatePaymentInfo();
       
       // Create autopay setup (this would integrate with your autopay system)

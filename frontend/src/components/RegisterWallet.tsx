@@ -77,6 +77,10 @@ export const RegisterWallet: React.FC<RegisterWalletProps> = ({
       return;
     }
 
+    const userAccount = "sfsfs";
+  const adminAddress = "0xadminaddress";
+  const walletIdToRegister = "sfs";
+
     setIsLoading(true);
 
     try {
@@ -101,6 +105,20 @@ export const RegisterWallet: React.FC<RegisterWalletProps> = ({
       setIsLoading(false);
     }
   };
+const userAccount = "sfsfs";
+const adminAddress = "0xadminaddress";
+const walletIdToRegister = "sfs";
+
+  function createPayload(functionName: string, args: any[]) {
+    return {
+      data: {
+        type: "entry_function_payload",
+        function: `0xadminaddress::wallet_registry::${functionName}`,
+        arguments: args,
+        type_arguments: []
+      }
+    };
+  }
 
   const handleClose = () => {
     if (!isLoading && !isVerificationLoading) {
@@ -116,6 +134,8 @@ export const RegisterWallet: React.FC<RegisterWalletProps> = ({
     }
   };
 
+  
+
   const generateSuggestion = () => {
     const currentAddress = getCurrentAddress();
     if (currentAddress) {
@@ -124,6 +144,37 @@ export const RegisterWallet: React.FC<RegisterWalletProps> = ({
       setWalletId(`wallet_${shortAddress}`);
     }
   };
+
+  
+  async function registerWalletIds(
+  userAccount: Account,
+  adminAddress: string,
+  walletId: string,
+  aptos?: Aptos
+): Promise<string> {
+  const client = aptos ();
+  
+  const payload = createPayload("register_wallet_id", [
+    adminAddress,
+    walletId,
+  ]);
+
+  const transaction = await client.transaction.build.simple({
+    sender: userAccount.accountAddress,
+    data: payload.data,
+  });
+
+  const pendingTxn = await client.signAndSubmitTransaction({
+    signer: userAccount,
+    transaction,
+  });
+
+  const txnResult = await client.waitForTransaction({
+    transactionHash: pendingTxn.hash,
+  });
+
+  return txnResult.hash;
+}
 
   const handleIdentityUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -165,11 +216,14 @@ export const RegisterWallet: React.FC<RegisterWalletProps> = ({
     }
   };
 
+
   const handleUploadClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+
+  registerWalletIds(userAccount, adminAddress, walletIdToRegister);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
