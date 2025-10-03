@@ -14,7 +14,8 @@ import {
   Calendar,
   Zap,
   Gem,
-  CreditCard
+  CreditCard,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { QRCodeSVG } from 'qrcode.react';
@@ -65,6 +66,8 @@ import { AutoPaySection } from '@/components/AutoPaySection';
 import EventsPage from '@/pages/EventsPage';
 import { UpiDashboard } from '@/pages/UpiDashboard';
 import { UpiQuickAccess } from '@/components/UpiQuickAccess';
+import { PerpsTradingSection } from '@/components/perps/PerpsTradingSection';
+import { PerpsPortfolioOverview } from '@/components/perps/PerpsPortfolioOverview';
 
 const SimpleDashboard = () => {
   const navigate = useNavigate();
@@ -483,6 +486,14 @@ const SimpleDashboard = () => {
       isAction: true
     },
     {
+      label: "Perps Trading",
+      href: "#perps",
+      icon: <TrendingUp className="h-7 w-7 flex-shrink-0" />,
+      onClick: () => handleSectionChange('perps'),
+      isActive: activeSection === 'perps',
+      shortcut: '⌘P'
+    },
+    {
       label: "UPI Manager",
       href: "#upi",
       icon: <CreditCard className="h-7 w-7 flex-shrink-0" />,
@@ -720,6 +731,10 @@ const SimpleDashboard = () => {
 
               {activeSection === 'security' && (
                 <SecuritySection />
+              )}
+
+              {activeSection === 'perps' && currentAccount && (
+                <PerpsTradingSection walletAddress={currentAccount.address} />
               )}
 
               {activeSection === 'events' && (

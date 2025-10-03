@@ -3,7 +3,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
+
 pnpm-debug.log*
 lerna-debug.log*
 
@@ -11,8 +11,6 @@ lerna-debug.log*
 dist/
 build/
 *.tsbuildinfo
-=======
->>>>>>> b0dc98e (feat : backend integrated)
 
 # Environment variables
 .env
@@ -20,7 +18,6 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
-<<<<<<< HEAD
 .env*.local
 
 # IDE and Editor files
@@ -29,7 +26,6 @@ build/
 *.swp
 *.swo
 *~
-=======
 
 # Logs
 logs
@@ -92,7 +88,6 @@ jspm_packages/
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
->>>>>>> b0dc98e (feat : backend integrated)
 
 # OS generated files
 .DS_Store
@@ -103,7 +98,6 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-<<<<<<< HEAD
 # Logs
 logs/
 *.log
@@ -224,4 +218,3 @@ build/
 
 # Uploads directory (for identity proofs)
 backend/uploads/
->>>>>>> b0dc98e (feat : backend integrated)

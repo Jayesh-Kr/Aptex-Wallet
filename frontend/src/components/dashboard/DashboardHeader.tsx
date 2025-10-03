@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, QrCode, Plus, LogOut } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Menu, QrCode, Plus, LogOut, AlertCircle } from 'lucide-react';
 
 interface DashboardHeaderProps {
   activeSection: string;
@@ -36,6 +37,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onLogout,
   addWalletLoading
 }) => {
+  const isTestnet = import.meta.env.VITE_APTOS_NETWORK === 'testnet';
+  
   return (
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center gap-4">
@@ -49,9 +52,20 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <Menu className="h-5 w-5" />
         </Button>
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold text-foreground">
-            {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-foreground">
+              {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
+            </h1>
+            {isTestnet && (
+              <Badge 
+                variant="outline" 
+                className="bg-yellow-500/10 text-yellow-500 border-yellow-500/30 flex items-center gap-1"
+              >
+                <AlertCircle className="h-3 w-3" />
+                TESTNET
+              </Badge>
+            )}
+          </div>
           <p className="text-sm text-muted-foreground">
             {getPageDescription(activeSection)}
           </p>
