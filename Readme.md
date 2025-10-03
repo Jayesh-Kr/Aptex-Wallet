@@ -12,6 +12,16 @@
 </div>
 
 ---
+<p align="center">
+  <b>🎬 Watch Demo</b><br><br>
+  <a href="https://youtu.be/nlB3flo-IWk">
+    <img src="https://img.youtube.com/vi/nlB3flo-IWk/0.jpg" 
+         alt="Watch the video" 
+         width="600" 
+         style="border-radius:15px;"/>
+  </a>
+</p>
+
 
 ## Overview
 
