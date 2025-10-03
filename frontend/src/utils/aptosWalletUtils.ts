@@ -1,5 +1,5 @@
 // Wallet utility functions for Aptos blockchain
-// Real Aptos SDK integration for devnet
+// Real Aptos SDK integration for testnet
 
 import {
   Account,
@@ -13,16 +13,16 @@ import {
 } from "@aptos-labs/ts-sdk";
 import * as bip39 from 'bip39';
 
-// Configure Aptos client for devnet
-const config = new AptosConfig({ network: Network.DEVNET });
+// Configure Aptos client for testnet
+const config = new AptosConfig({ network: Network.TESTNET });
 export const aptos = new Aptos(config);
 
 // Test network connectivity
 export const testAptosConnection = async (): Promise<boolean> => {
   try {
-    console.log('🔍 Testing Aptos devnet connection...');
+    console.log('🔍 Testing Aptos testnet connection...');
     const ledgerInfo = await aptos.getLedgerInfo();
-    console.log('✅ Aptos devnet connection successful');
+    console.log('✅ Aptos testnet connection successful');
     console.log('📊 Ledger info:', {
       chainId: ledgerInfo.chain_id,
       epoch: ledgerInfo.epoch,
@@ -31,7 +31,7 @@ export const testAptosConnection = async (): Promise<boolean> => {
     });
     return true;
   } catch (error) {
-    console.error('❌ Aptos devnet connection failed:', error);
+    console.error('❌ Aptos testnet connection failed:', error);
     return false;
   }
 };
@@ -242,14 +242,14 @@ export const getWalletBalance = async (address: string): Promise<string> => {
     // Provide more specific error information
     if (error instanceof Error) {
       if (error.message.includes('Resource not found')) {
-        console.log('ℹ️ Account not found on devnet, returning 0 balance');
+        console.log('ℹ️ Account not found on testnet, returning 0 balance');
         return '0.00000000';
       } else if (error.message.includes('Invalid address')) {
         console.error('🚫 Invalid address format provided');
         throw error;
       } else if (error.message.includes('network') || error.message.includes('fetch')) {
         console.error('🌐 Network error while fetching balance');
-        throw new Error('Network error: Unable to fetch balance from Aptos devnet');
+        throw new Error('Network error: Unable to fetch balance from Aptos testnet');
       }
     }
     
@@ -463,7 +463,7 @@ export const sendAptosTransaction = async (
 /**
  * Fund account with devnet APT tokens (faucet)
  */
-export const fundAccountWithDevnetAPT = async (address: string): Promise<boolean> => {
+export const fundAccountWithTestnetAPT = async (address: string): Promise<boolean> => {
   try {
     const accountAddress = AccountAddress.fromString(address);
     await aptos.fundAccount({
@@ -471,13 +471,16 @@ export const fundAccountWithDevnetAPT = async (address: string): Promise<boolean
       amount: 100_000_000, // 1 APT in octas
     });
     
-    console.log(`Funded account ${address} with 1 APT from devnet faucet`);
+    console.log(`Funded account ${address} with 1 APT from testnet faucet`);
     return true;
   } catch (error) {
     console.error('Error funding account:', error);
     return false;
   }
 };
+
+// Keep old function name for backward compatibility
+export const fundAccountWithDevnetAPT = fundAccountWithTestnetAPT;
 
 /**
  * Check if account exists on Aptos devnet
@@ -577,6 +580,7 @@ export default {
   getWalletBalance,
   getAccountTransactions,
   sendAptosTransaction,
+  fundAccountWithTestnetAPT,
   fundAccountWithDevnetAPT,
   checkAccountExists,
   getAccountInfo,

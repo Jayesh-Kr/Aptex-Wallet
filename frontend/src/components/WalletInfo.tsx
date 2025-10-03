@@ -29,7 +29,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [accountExists, setAccountExists] = useState(false);
 
-  // Fetch real balance from Aptos devnet
+  // Fetch real balance from Aptos testnet
   const fetchBalance = async () => {
     if (!address) return;
     
@@ -160,7 +160,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({
                 size="sm"
                 className="h-8 w-8 p-0 hover:bg-secondary/30"
                 title="View on Explorer"
-                onClick={() => window.open(`https://explorer.aptoslabs.com/account/${address}?network=devnet`, '_blank')}
+                onClick={() => window.open(`https://explorer.aptoslabs.com/account/${address}?network=testnet`, '_blank')}
               >
                 <ExternalLink className="h-4 w-4" />
               </Button>
@@ -191,9 +191,9 @@ const WalletInfo: React.FC<WalletInfoProps> = ({
             <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Account Status</div>
             <div className="text-sm font-medium text-foreground mt-1">
               {accountExists ? (
-                <span className="text-green-400">Active on Devnet</span>
+                <span className="text-green-400">Active on Testnet</span>
               ) : (
-                <span className="text-yellow-400">Not found on Devnet</span>
+                <span className="text-yellow-400">Not found on Testnet</span>
               )}
             </div>
           </div>

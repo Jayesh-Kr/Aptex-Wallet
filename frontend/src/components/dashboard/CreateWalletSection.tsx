@@ -26,7 +26,7 @@ export const CreateWalletSection: React.FC<CreateWalletSectionProps> = ({
         </CardHeader>
         <CardContent className="space-y-4 text-center">
           <p className="text-sm text-muted-foreground">
-            You'll get a secure wallet with seed phrase backup and 1 APT on devnet for testing.
+            You'll get a secure wallet with seed phrase backup and 1 APT on testnet for testing.
           </p>
           <Button
             onClick={onCreateWallet}

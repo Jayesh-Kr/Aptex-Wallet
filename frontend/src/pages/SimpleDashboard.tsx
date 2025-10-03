@@ -269,7 +269,7 @@ const SimpleDashboard = () => {
       // Test Aptos connection first
       const connectionOk = await testAptosConnection();
       if (!connectionOk) {
-        console.warn('⚠️ Aptos devnet connection failed, balance fetching may not work');
+        console.warn('⚠️ Aptos testnet connection failed, balance fetching may not work');
       }
       
       const storedWallet = getStoredWallet();

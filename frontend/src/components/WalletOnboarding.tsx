@@ -32,7 +32,7 @@ import {
   importWalletFromMnemonic,
   importWalletFromPrivateKey,
   getWalletBalance,
-  fundAccountWithDevnetAPT,
+  fundAccountWithTestnetAPT,
   isValidMnemonic
 } from '../utils/aptosWalletUtils';
 
@@ -88,13 +88,13 @@ const WalletOnboarding: React.FC<WalletOnboardingProps> = ({ onComplete }) => {
     try {
       const walletData = await generateAptosWallet();
       
-      // Fund the new account with devnet APT
-      const funded = await fundAccountWithDevnetAPT(walletData.address);
+      // Fund the new account with testnet APT
+      const funded = await fundAccountWithTestnetAPT(walletData.address);
       if (funded) {
-        console.log('Account funded with devnet APT');
+        console.log('Account funded with testnet APT');
         toast({
           title: "Wallet Funded",
-          description: "Your new wallet has been funded with 1 APT from the devnet faucet!"
+          description: "Your new wallet has been funded with 1 APT from the testnet faucet!"
         });
       }
       
@@ -762,7 +762,7 @@ const WalletOnboarding: React.FC<WalletOnboardingProps> = ({ onComplete }) => {
             <Shield className="h-4 w-4 text-muted-foreground" />
             <AlertDescription className="text-muted-foreground">
               Your wallet is encrypted and stored securely on this device. 
-              {onboardingType === 'create' && ' It has been connected to Aptos Devnet and funded with 1 APT for testing.'}
+              {onboardingType === 'create' && ' It has been connected to Aptos Testnet and funded with 1 APT for testing.'}
             </AlertDescription>
           </Alert>
         </div>

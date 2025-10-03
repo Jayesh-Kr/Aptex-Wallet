@@ -34,7 +34,7 @@ export const BalanceTester: React.FC = () => {
   };
 
   const testWithSampleAddress = () => {
-    // Use a known devnet address with balance for testing
+    // Use a known testnet address with balance for testing
     setAddress('0x1');
     setTimeout(() => testBalance(), 100);
   };

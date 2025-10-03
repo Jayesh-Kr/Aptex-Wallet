@@ -448,7 +448,7 @@ export const TransactionHistory: React.FC<{ refreshFlag?: number }> = ({ refresh
             <div className="text-center p-8">
               <div className="flex flex-col items-center justify-center space-y-3">
                 <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-                <p className="text-muted-foreground">Loading transactions from Aptos devnet...</p>
+                <p className="text-muted-foreground">Loading transactions from Aptos testnet...</p>
                 <p className="text-xs text-muted-foreground">This may take a few seconds</p>
               </div>
             </div>
@@ -499,7 +499,7 @@ export const TransactionHistory: React.FC<{ refreshFlag?: number }> = ({ refresh
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-muted-foreground">Hash:</span>
                       <a 
-                        href={`https://explorer.aptoslabs.com/txn/${tx.txHash}?network=devnet`} 
+                        href={`https://explorer.aptoslabs.com/txn/${tx.txHash}?network=testnet`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="flex items-center text-primary hover:text-primary/80 transition-colors"
@@ -587,7 +587,7 @@ export const TransactionHistory: React.FC<{ refreshFlag?: number }> = ({ refresh
                   <td colSpan={7} className="text-center p-12">
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-                      <p className="text-muted-foreground">Loading transactions from Aptos devnet...</p>
+                      <p className="text-muted-foreground">Loading transactions from Aptos testnet...</p>
                       <p className="text-xs text-muted-foreground">This may take a few seconds</p>
                     </div>
                   </td>
@@ -627,7 +627,7 @@ export const TransactionHistory: React.FC<{ refreshFlag?: number }> = ({ refresh
                     <td className="p-4">{getStatusBadge(tx.status || 'confirmed')}</td>
                     <td className="p-4">
                       <a 
-                        href={`https://explorer.aptoslabs.com/txn/${tx.txHash}?network=devnet`} 
+                        href={`https://explorer.aptoslabs.com/txn/${tx.txHash}?network=testnet`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="flex items-center text-primary hover:text-primary/80 transition-colors"

@@ -1,7 +1,7 @@
 import { Aptos, AptosConfig, Network, Account, Ed25519PrivateKey, AccountAddress } from '@aptos-labs/ts-sdk';
 
-// Initialize Aptos client for devnet
-const config = new AptosConfig({ network: Network.DEVNET });
+// Initialize Aptos client for testnet
+const config = new AptosConfig({ network: Network.TESTNET });
 export const aptos = new Aptos(config);
 
 export interface WalletAccount {
@@ -242,15 +242,15 @@ export const getAccountBalance = async (address: string): Promise<string> => {
     // Check if it's a network/API issue
     if (error instanceof Error) {
       if (error.message.includes('Resource not found')) {
-        console.log('ℹ️ Account not found on devnet, returning 0 balance');
+        console.log('ℹ️ Account not found on testnet, returning 0 balance');
         return '0.00000000';
       }
       if (error.message.includes('Unexpected token') || 
           error.message.includes('Bad Gateway') ||
           error.message.includes('502') ||
           error.message.includes('503')) {
-        console.error('🔴 Aptos Devnet API is down. Please try again in a few minutes.');
-        throw new Error('Aptos Devnet API is temporarily unavailable. Please try again later.');
+        console.error('🔴 Aptos Testnet API is down. Please try again in a few minutes.');
+        throw new Error('Aptos Testnet API is temporarily unavailable. Please try again later.');
       }
     }
     return '0';
@@ -274,7 +274,7 @@ export const getAccountTransactions = async (address: string, limit: number = 25
   }
 };
 
-// Fund account on devnet (for testing)
+// Fund account on testnet (for testing)
 export const fundAccount = async (address: string): Promise<boolean> => {
   try {
     await aptos.fundAccount({

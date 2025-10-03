@@ -16,12 +16,12 @@ import {
 import { parseContractError, formatErrorForLog } from "./errorHandler";
 import { rpcCache, generateCacheKey } from "./rpcCache";
 
-// Initialize Aptos client for devnet
-const config = new AptosConfig({ network: Network.DEVNET });
+// Initialize Aptos client for testnet
+const config = new AptosConfig({ network: Network.TESTNET });
 export const aptos = new Aptos(config);
 
-// Contract configuration
-export const CONTRACT_ADDRESS = "0x26edd69f33b924746d8bcc972027477d46e79406975f9c370260fd9c99aa255d";
+// Contract configuration - Updated for Testnet deployment
+export const CONTRACT_ADDRESS = "0x9c2fe13427bfa2d51671cdc2c04b4915ed4ef81709ccd8cd31c1150769596d2c";
 export const MODULE_NAME = "wallet_system";
 
 // Full module identifier
@@ -190,7 +190,7 @@ export const checkSufficientBalance = async (
   } catch (error) {
     console.error("Error checking balance:", error);
     if (error instanceof Error && error.message.includes('Resource not found')) {
-      console.log('ℹ️ Account not found on devnet, returning 0 balance');
+      console.log('ℹ️ Account not found on testnet, returning 0 balance');
       return { sufficient: false, currentBalance: 0, required: amountAPT + gasEstimateAPT };
     }
     return { sufficient: false, currentBalance: 0, required: amountAPT + gasEstimateAPT };
@@ -1138,8 +1138,8 @@ export const getUserPaymentRequests = async (userAddress: string): Promise<numbe
          error.message.includes('Bad Gateway') ||
          error.message.includes('502') ||
          error.message.includes('503'))) {
-      console.error("🔴 Aptos Devnet API is down. Payment requests cannot be loaded.");
-      throw new Error('Aptos Devnet API is temporarily unavailable. Please try again later.');
+      console.error("🔴 Aptos Testnet API is down. Payment requests cannot be loaded.");
+      throw new Error('Aptos Testnet API is temporarily unavailable. Please try again later.');
     }
     return [];
   }
@@ -1170,8 +1170,8 @@ export const getUserSentRequests = async (userAddress: string): Promise<number[]
          error.message.includes('Bad Gateway') ||
          error.message.includes('502') ||
          error.message.includes('503'))) {
-      console.error("🔴 Aptos Devnet API is down. Payment requests cannot be loaded.");
-      throw new Error('Aptos Devnet API is temporarily unavailable. Please try again later.');
+      console.error("🔴 Aptos Testnet API is down. Payment requests cannot be loaded.");
+      throw new Error('Aptos Testnet API is temporarily unavailable. Please try again later.');
     }
     return [];
   }

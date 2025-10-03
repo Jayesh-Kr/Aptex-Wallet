@@ -8,7 +8,7 @@ import {
   generateAptosWallet,
   getWalletBalance,
   checkAccountExists,
-  fundAccountWithDevnetAPT,
+  fundAccountWithTestnetAPT,
   isValidAptosAddress,
   isValidMnemonic
 } from '../utils/aptosWalletUtils';
@@ -38,12 +38,12 @@ const AptosTestComponent: React.FC = () => {
       const newWallet = await generateAptosWallet();
       setWallet(newWallet);
       
-      // Automatically fund with devnet APT
-      const funded = await fundAccountWithDevnetAPT(newWallet.address);
+      // Automatically fund with testnet APT
+      const funded = await fundAccountWithTestnetAPT(newWallet.address);
       if (funded) {
         toast({
           title: "Success",
-          description: "Wallet created and funded with devnet APT!"
+          description: "Wallet created and funded with testnet APT!"
         });
         
         // Wait a moment for funding to process, then check balance
@@ -107,7 +107,7 @@ const AptosTestComponent: React.FC = () => {
       
       toast({
         title: "Success",
-        description: `Account ${exists ? 'exists' : 'does not exist'} on devnet`
+        description: `Account ${exists ? 'exists' : 'does not exist'} on testnet`
       });
     } catch (error) {
       toast({
